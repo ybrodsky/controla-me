@@ -27,6 +27,13 @@ app.disable('x-powered-by');
 
 require('./config/passport.js');
 
+app.use(function(req, res, next) {
+  req.query.all = function() {
+    return require('./middlewares/query.js').parse(req.query);
+  }
+  return next();
+});
+
 app.use('/', index);
 require('./config/routes.js')(app);
 
